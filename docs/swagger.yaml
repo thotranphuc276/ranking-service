@@ -1,0 +1,117 @@
+definitions:
+  models.ScoreUpdate:
+    properties:
+      comments:
+        type: integer
+      likes:
+        type: integer
+      shares:
+        type: integer
+      views:
+        type: integer
+      watch_time:
+        type: integer
+    type: object
+  models.Video:
+    properties:
+      comments:
+        type: integer
+      created_at:
+        type: integer
+      id:
+        type: integer
+      likes:
+        type: integer
+      score:
+        type: number
+      shares:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: integer
+      user_id:
+        type: integer
+      views:
+        type: integer
+      watch_time:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/users/{id}/videos/top:
+    get:
+      description: Get top ranked videos for a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: 10
+        description: Limit number of results
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Video'
+            type: array
+      summary: Get user's top videos
+      tags:
+      - videos
+  /api/v1/videos/{id}/score:
+    post:
+      consumes:
+      - application/json
+      description: Update video score based on new interactions
+      parameters:
+      - description: Video ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Score update data
+        in: body
+        name: update
+        required: true
+        schema:
+          $ref: '#/definitions/models.ScoreUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Score updated successfully
+          schema:
+            type: string
+      summary: Update video score
+      tags:
+      - videos
+  /api/v1/videos/top:
+    get:
+      description: Get top ranked videos globally
+      parameters:
+      - default: 10
+        description: Limit number of results
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Video'
+            type: array
+      summary: Get top videos
+      tags:
+      - videos
+swagger: "2.0"
