@@ -2,15 +2,15 @@ package main
 
 import (
 	"log"
-	"real-time-ranking/internal/daos"
-	"real-time-ranking/internal/handlers"
-	"real-time-ranking/internal/services"
+	"ranking-service/internal/daos"
+	"ranking-service/internal/handlers"
+	"ranking-service/internal/services"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	_ "real-time-ranking/docs"
+	_ "ranking-service/docs"
 )
 
 func main() {

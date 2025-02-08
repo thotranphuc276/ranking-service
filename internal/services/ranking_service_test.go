@@ -1,7 +1,7 @@
 package services
 
 import (
-	"real-time-ranking/internal/models"
+	"ranking-service/internal/models"
 	"testing"
 	"time"
 )

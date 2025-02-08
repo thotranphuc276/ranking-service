@@ -1,8 +1,8 @@
 package services
 
 import (
-	"real-time-ranking/internal/daos"
-	"real-time-ranking/internal/models"
+	"ranking-service/internal/daos"
+	"ranking-service/internal/models"
 )
 
 type RankingService struct {

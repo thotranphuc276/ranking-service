@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"net/http"
-	"real-time-ranking/internal/models"
-	"real-time-ranking/internal/services"
+	"ranking-service/internal/models"
+	"ranking-service/internal/services"
 	"strconv"
 
 	"github.com/gin-gonic/gin"

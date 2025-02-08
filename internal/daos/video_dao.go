@@ -3,7 +3,7 @@ package daos
 import (
 	"context"
 	"fmt"
-	"real-time-ranking/internal/models"
+	"ranking-service/internal/models"
 	"strconv"
 	"time"
 

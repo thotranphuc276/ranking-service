@@ -1,7 +1,7 @@
 package daos
 
 import (
-	"real-time-ranking/internal/models"
+	"ranking-service/internal/models"
 )
 
 type VideoDAOInterface interface {

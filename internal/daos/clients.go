@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"real-time-ranking/internal/models"
+	"ranking-service/internal/models"
 
 	"github.com/go-redis/redis/v8"
 	"gorm.io/driver/postgres"
