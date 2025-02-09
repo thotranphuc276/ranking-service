@@ -68,6 +68,10 @@ Run tests:
 go test ./... -v
 ```
 
+## Diagram
+
+![Ranking Service Diagram](assets/diagram.svg)
+
 ## Architecture
 
 The service uses a layered architecture:
