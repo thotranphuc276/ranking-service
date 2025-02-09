@@ -41,32 +41,6 @@ func (d *VideoDAO) GetOrCreateVideo(videoID uint) (*models.Video, error) {
 	return &video, nil
 }
 
-func (d *VideoDAO) UpdateScore(videoID uint, score float64) error {
-	video, err := d.GetOrCreateVideo(videoID)
-	if err != nil {
-		return err
-	}
-
-	tx := d.db.Model(video).Updates(map[string]interface{}{
-		"score":      score,
-		"updated_at": time.Now().Unix(),
-	})
-	if tx.Error != nil {
-		return tx.Error
-	}
-
-	ctx := context.Background()
-	key := fmt.Sprintf("video_score:%d", videoID)
-	pipe := d.redis.Pipeline()
-	pipe.ZAdd(ctx, "video_rankings", &redis.Z{
-		Score:  score,
-		Member: videoID,
-	})
-	pipe.Set(ctx, key, score, 24*time.Hour)
-	_, err = pipe.Exec(ctx)
-	return err
-}
-
 func (d *VideoDAO) UpdateVideoStats(videoID uint, update models.ScoreUpdate) error {
 	video, err := d.GetOrCreateVideo(videoID)
 	if err != nil {
@@ -77,19 +51,23 @@ func (d *VideoDAO) UpdateVideoStats(videoID uint, update models.ScoreUpdate) err
 	updates["updated_at"] = time.Now().Unix()
 
 	if update.Views != nil {
-		updates["views"] = *update.Views
+		updates["views"] = *update.Views + video.Views
 	}
 	if update.Likes != nil {
-		updates["likes"] = *update.Likes
+		updates["likes"] = *update.Likes + video.Likes
 	}
 	if update.Comments != nil {
-		updates["comments"] = *update.Comments
+		updates["comments"] = *update.Comments + video.Comments
 	}
 	if update.Shares != nil {
-		updates["shares"] = *update.Shares
+		updates["shares"] = *update.Shares + video.Shares
 	}
 	if update.WatchTime != nil {
-		updates["watch_time"] = *update.WatchTime
+		updates["watch_time"] = *update.WatchTime + video.WatchTime
+	}
+
+	if update.Score != nil {
+		updates["score"] = *update.Score + video.Score
 	}
 
 	return d.db.Model(video).Updates(updates).Error
@@ -112,13 +90,4 @@ func (d *VideoDAO) GetTopVideos(limit int) ([]models.Video, error) {
 		videos = append(videos, video)
 	}
 	return videos, nil
-}
-
-func (d *VideoDAO) GetUserTopVideos(userID uint, limit int) ([]models.Video, error) {
-	var videos []models.Video
-	err := d.db.Where("user_id = ?", userID).
-		Order("score desc").
-		Limit(limit).
-		Find(&videos).Error
-	return videos, err
 }

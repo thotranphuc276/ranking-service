@@ -15,45 +15,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/users/{id}/videos/top": {
-            "get": {
-                "description": "Get top ranked videos for a specific user",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "videos"
-                ],
-                "summary": "Get user's top videos",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "default": 10,
-                        "description": "Limit number of results",
-                        "name": "limit",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Video"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/videos/top": {
             "get": {
                 "description": "Get top ranked videos globally",
@@ -137,6 +98,9 @@ const docTemplate = `{
                 },
                 "likes": {
                     "type": "integer"
+                },
+                "score": {
+                    "type": "number"
                 },
                 "shares": {
                     "type": "integer"

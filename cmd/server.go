@@ -31,7 +31,6 @@ func main() {
 	{
 		api.POST("/videos/:id/score", videoHandler.UpdateScore)
 		api.GET("/videos/top", videoHandler.GetTopVideos)
-		api.GET("/users/:id/videos/top", videoHandler.GetUserTopVideos)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

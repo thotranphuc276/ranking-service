@@ -5,6 +5,8 @@ definitions:
         type: integer
       likes:
         type: integer
+      score:
+        type: number
       shares:
         type: integer
       views:
@@ -40,32 +42,6 @@ definitions:
 info:
   contact: {}
 paths:
-  /api/v1/users/{id}/videos/top:
-    get:
-      description: Get top ranked videos for a specific user
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - default: 10
-        description: Limit number of results
-        in: query
-        name: limit
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Video'
-            type: array
-      summary: Get user's top videos
-      tags:
-      - videos
   /api/v1/videos/{id}/score:
     post:
       consumes:

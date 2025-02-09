@@ -40,18 +40,15 @@ func (s *RankingService) CalculateScore(update models.ScoreUpdate) float64 {
 }
 
 func (s *RankingService) UpdateVideoScore(videoID uint, update models.ScoreUpdate) error {
+	score := s.CalculateScore(update)
+	update.Score = &score
 	if err := s.videoDAO.UpdateVideoStats(videoID, update); err != nil {
 		return err
 	}
 
-	score := s.CalculateScore(update)
-	return s.videoDAO.UpdateScore(videoID, score)
+	return nil
 }
 
 func (s *RankingService) GetTopVideos(limit int) ([]models.Video, error) {
 	return s.videoDAO.GetTopVideos(limit)
-}
-
-func (s *RankingService) GetUserTopVideos(userID uint, limit int) ([]models.Video, error) {
-	return s.videoDAO.GetUserTopVideos(userID, limit)
 }

@@ -63,27 +63,3 @@ func (h *VideoHandler) GetTopVideos(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, videos)
 }
-
-// @Summary Get user's top videos
-// @Description Get top ranked videos for a specific user
-// @Tags videos
-// @Produce json
-// @Param id path int true "User ID"
-// @Param limit query int false "Limit number of results" default(10)
-// @Success 200 {array} models.Video
-// @Router /api/v1/users/{id}/videos/top [get]
-func (h *VideoHandler) GetUserTopVideos(c *gin.Context) {
-	userID, err := strconv.ParseUint(c.Param("id"), 10, 32)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
-		return
-	}
-
-	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
-	videos, err := h.rankingService.GetUserTopVideos(uint(userID), limit)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, videos)
-}
